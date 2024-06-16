@@ -1,0 +1,8 @@
+version: '0.0.1'
+services:
+  tucano:
+    ports:
+      - 8080:8080
+    build:
+      dockerfile: ./Dockerfile
+    container_name: tucano-backend-application

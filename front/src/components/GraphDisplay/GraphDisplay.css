@@ -1,0 +1,98 @@
+.graph-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.image-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+  height: auto;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  cursor: crosshair;
+}
+
+.node {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: lightgreen;
+  border: 2px solid blue;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+form input {
+  padding: 5px;
+}
+
+form button {
+  padding: 5px 10px;
+}
+
+.node {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  color: white;
+  font-weight: bold;
+  z-index: 20;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+.link {
+    stroke: #999;
+    stroke-opacity: 0.6;
+  }
+  
+  .link:hover {
+    stroke-opacity: 1;
+  }
+  
+  .linkLabel {
+    font-size: 10px;
+    fill: #555;
+  }
+
+  .edge-weight {
+    position: absolute;
+    color: black;
+    padding: 2px;
+    margin: 10px;
+    font-size: 20px;
+    font-weight: 800;
+    z-index: 11;
+    background-color: white;
+    border-radius: 20px;
+  }
+  #graph-id-graph-wrapper{
+    display: none;
+  }
