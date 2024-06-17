@@ -1,13 +1,32 @@
 package com.krystian.intership.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.util.List;
 
-@Data
-@AllArgsConstructor
 public class ShortestPathDTO {
-    List<String> path;
-    Long length;
+    private List<String> path;
+    private Long totalWeight;
+
+    // Konstruktor
+    public ShortestPathDTO(List<String> path, Long totalWeight) {
+        this.path = path;
+        this.totalWeight = totalWeight;
+    }
+
+    // Gettery i settery
+
+    public List<String> getPath() {
+        return path;
+    }
+
+    public void setPath(List<String> path) {
+        this.path = path;
+    }
+
+    public Long getTotalWeight() {
+        return totalWeight;
+    }
+
+    public void setTotalWeight(Long totalWeight) {
+        this.totalWeight = totalWeight;
+    }
 }

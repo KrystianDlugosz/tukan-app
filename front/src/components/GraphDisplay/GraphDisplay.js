@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Graph } from 'react-d3-graph';
 import './GraphDisplay.css';
 import GraphSend from '../GraphSend/GraphSend';
@@ -6,7 +6,7 @@ import GraphSend from '../GraphSend/GraphSend';
 function GraphDisplay({ nodes, edges, onAddEdge, onAddNode, onRemoveAllNodes, onRemoveLastNode }) {
   const [points, setPoints] = useState(nodes);
   const [graphEdges, setGraphEdges] = useState([]);
-  const [backendData, setBackendData] = useState(null); 
+  const [backendData, setBackendData] = useState(null);
 
   const generatePointName = () => {
     const usedNames = points.map(point => point.id);
@@ -19,21 +19,6 @@ function GraphDisplay({ nodes, edges, onAddEdge, onAddNode, onRemoveAllNodes, on
     }
     return ''; // Jeśli wszystkie litery są już użyte
   };
-
-  // useEffect(() => {
-  //   fetchGraphData(); // Pobranie danych z backendu przy pierwszym renderowaniu
-  // }, []);
-
-  // const fetchGraphData = () => {
-  //   GraphSend.fetchGraphData()
-  //     .then(response => {
-  //       setBackendData(response.data); // Ustawienie danych pobranych z backendu w stanie
-  //     })
-  //     .catch(error => {
-  //       console.error('Błąd podczas pobierania danych z backendu:', error);
-  //       // Obsługa błędu, np. wyświetlenie komunikatu o niepowodzeniu
-  //     });
-  // };
 
   const handleImageClick = (event) => {
     const rect = event.target.getBoundingClientRect();
@@ -127,26 +112,30 @@ function GraphDisplay({ nodes, edges, onAddEdge, onAddNode, onRemoveAllNodes, on
 
   const graphData = {
     nodes: points.map((point) => ({ id: point.id, label: point.label })),
-    links: edges.map((edge, index) => ({
+    links: graphEdges.map((edge, index) => ({
       source: edge.from,
       target: edge.to,
       label: `Edge ${index + 1}`,
     })),
   };
 
+  const handleBackendResponse = (data) => {
+    console.log('Odpowiedź z backendu:', data);
+    setBackendData(data);
+  };
+
   const handleSaveGraph = () => {
     const graphDataToSend = {
-      nodes: points.map(point => point.id), // Format wierzchołków na podstawie aktualnych punktów
+      nodes: points.map(point => point.id),
       edges: graphEdges.map(edge => ({
         from: edge.from,
         to: edge.to,
         weight: edge.weight
       }))
     };
-    // Możesz tutaj użyć komponentu GraphApiService do wysłania danych na backend
-    console.log('na backend:', graphDataToSend);
-    // <GraphApiService graphData={graphDataToSend} />
-    // Usunięto powyższy kod, aby uniknąć przypadkowego wysłania żądania podczas testowania.
+
+    // Wywołanie funkcji wysyłającej dane do backendu
+    handleBackendResponse(graphDataToSend);
   };
 
   return (
@@ -180,9 +169,9 @@ function GraphDisplay({ nodes, edges, onAddEdge, onAddNode, onRemoveAllNodes, on
         data={graphData}
         config={graphConfig}
       />
-      <button onClick={handleSaveGraph}>Pokaż najkrótszą scieżkę z punktu S do punktu P</button>
-       {/* Wyświetlanie danych z backendu, jeśli są dostępne */}
-       {backendData && (
+      <GraphSend graphData={graphData} onBackendResponse={handleBackendResponse} />
+      {/* Wyświetlanie danych z backendu, jeśli są dostępne */}
+      {backendData && (
         <div>
           <h3>Dane pobrane z backendu:</h3>
           <pre>{JSON.stringify(backendData, null, 2)}</pre>
@@ -218,6 +207,5 @@ const Line = ({ edge }) => {
     </>
   );
 };
-  
 
 export default GraphDisplay;

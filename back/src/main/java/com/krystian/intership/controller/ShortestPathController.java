@@ -1,5 +1,8 @@
 package com.krystian.intership.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+
 import com.krystian.intership.model.Graph;
 import com.krystian.intership.model.ShortestPathDTO;
 import com.krystian.intership.service.IShortestPathSolver;
@@ -19,5 +22,4 @@ public class ShortestPathController {
     public ResponseEntity<ShortestPathDTO> solve(@RequestBody Graph graph) {
         return ResponseEntity.ok(solver.solve(graph));
     }
-
 }

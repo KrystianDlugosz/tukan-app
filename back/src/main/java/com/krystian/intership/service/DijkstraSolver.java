@@ -1,6 +1,5 @@
 package com.krystian.intership.service;
 
-import com.google.gson.Gson;
 import com.krystian.intership.model.Edge;
 import com.krystian.intership.model.Graph;
 import com.krystian.intership.model.ShortestPathDTO;
@@ -15,8 +14,8 @@ public class DijkstraSolver implements IShortestPathSolver {
 
     @Override
     public ShortestPathDTO solve(Graph graph) {
-        Map<String, Long> dist  = new HashMap<>();
-        Map<String, String> prev  = new HashMap<>();
+        Map<String, Long> dist = new HashMap<>();
+        Map<String, String> prev = new HashMap<>();
         List<String> queue = new ArrayList<>();
         Map<String, Set<String>> nodeToNeighbours = new HashMap<>();
 
@@ -27,17 +26,11 @@ public class DijkstraSolver implements IShortestPathSolver {
         }
 
         for (Edge edge : graph.getEdges()) {
-            Set<String> v1 = new HashSet<>();
-            if (nodeToNeighbours.containsKey(edge.getFrom())) {
-                v1 = nodeToNeighbours.get(edge.getFrom());
-            }
+            Set<String> v1 = nodeToNeighbours.getOrDefault(edge.getFrom(), new HashSet<>());
             v1.add(edge.getTo());
             nodeToNeighbours.put(edge.getFrom(), v1);
 
-            Set<String> v2 = new HashSet<>();
-            if (nodeToNeighbours.containsKey(edge.getTo())) {
-                v2 = nodeToNeighbours.get(edge.getTo());
-            }
+            Set<String> v2 = nodeToNeighbours.getOrDefault(edge.getTo(), new HashSet<>());
             v2.add(edge.getFrom());
             nodeToNeighbours.put(edge.getTo(), v2);
         }
@@ -97,7 +90,7 @@ public class DijkstraSolver implements IShortestPathSolver {
     private Long getEdgeWeight(Graph graph, String from, String to) {
         for (Edge edge : graph.getEdges()) {
             if ((edge.getFrom().equals(from) && edge.getTo().equals(to))
-                || (edge.getFrom().equals(to) && edge.getTo().equals(from))) {
+                    || (edge.getFrom().equals(to) && edge.getTo().equals(from))) {
                 return edge.getWeight();
             }
         }

@@ -5,4 +5,4 @@ services:
       - 8080:8080
     build:
       dockerfile: ./Dockerfile
-    container_name: tucano-backend-application
+    container_name: tucano-application

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const GraphSend = ({ graphData }) => {
+const GraphSend = ({ graphData, onBackendResponse }) => {
   const handleSaveGraph = () => {
-    fetch('url_do_twojego_backendu', {
+    fetch('http://localhost:8080/solve', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -11,9 +11,12 @@ const GraphSend = ({ graphData }) => {
     })
     .then(response => {
       if (response.ok) {
-        return response.json();
+        console.log('Request successful - connected to backend');
+        return response.json(); // Zwrócenie danych z backendu do kolejnego .then()
+      } else {
+        console.error('Request failed:', response.status, response.statusText);
+        throw new Error('Network response was not ok.');
       }
-      throw new Error('Network response was not ok.');
     })
     .then(data => {
       console.log('Response from backend:', data);
@@ -21,7 +24,9 @@ const GraphSend = ({ graphData }) => {
     })
     .catch(error => {
       console.error('Error sending data to backend:', error);
+      // Tutaj możesz obsłużyć błąd, np. wyświetlić komunikat dla użytkownika
     });
+
   };
 
   return (
